@@ -8,7 +8,8 @@ shout() {
 
 set -ex
 
-case ${CI_INFO} in
+#Workaround for https://github.com/openshift/odo/issues/4523 use env varibale CLUSTER instead of parameter
+case $CLUSTER in
     minikube)
         # Integration tests
         shout "| Running integration Tests on MiniKube"
@@ -16,7 +17,6 @@ case ${CI_INFO} in
         make test-integration-devfile
         ;;
     minishift)
-        cd $HOME/openshift/odo
         eval $(minishift oc-env)
 
         shout "| Logging in to minishift..."
